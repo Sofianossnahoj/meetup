@@ -1,6 +1,7 @@
 <template>
   <main>
     <Header />
+    <h1>hej</h1>
     <section
       v-for="(event, title) in loadedEvents"
       :key="title"
