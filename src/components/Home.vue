@@ -2,7 +2,7 @@
   <main>
     <Header />
     <section
-      v-for="(event, title) in loadedEvents"
+      v-for="(event, title) in getEvents()"
       :key="title"
       class="eventCard"
     >
@@ -109,7 +109,8 @@ export default {
   methods: {
     init() {
       this.loadedEvents = JSON.parse(localStorage.getItem("events"));
-      console.log(this.loadedEvents);
+      // this.loadedEvents = localStorage.getItem('events')
+      console.log("in loadedEvents " + this.loadedEvents);
     },
 
     saveUserToStorage() {
@@ -119,6 +120,16 @@ export default {
 
     saveUserToEvent(userName, userNames, userEmail, userEmails) {
       userNames.push(userName), userEmails.push(userEmail);
+    },
+
+    getEvents() {
+      if (this.loadedEvents !== null) {
+        console.log("getting events from loadedEvents");
+        return this.loadedEvents;
+      } else {
+        console.log("getting events from events");
+        return this.events;
+      }
     },
   },
 };
