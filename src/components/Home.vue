@@ -1,11 +1,8 @@
 <template>
   <main>
     <Header />
-    <section
-      v-for="(event, title) in getEvents()"
-      :key="title"
-      class="eventCard"
-    >
+    <Comments />
+    <section v-for="(event, title) in events" :key="title" class="eventCard">
       <h4>{{ event.title }}</h4>
       <p>{{ event.date }}</p>
       <p>{{ event.location }}</p>
@@ -14,8 +11,8 @@
       </div>
       <button
         v-show="!event.joinForm"
-        v-on:click="event.joinForm = !event.joinForm"
-        class="btn"
+        @click="event.joinForm = !event.joinForm"
+        class="Btn"
       >
         Join
       </button>
@@ -56,23 +53,26 @@
 
 <script>
 import Header from "../components/Header.vue";
+import Comments from "../components/Comments.vue";
+import { add, format } from "date-fns";
 
 export default {
   name: "Home",
   components: {
     Header,
+    Comments,
   },
 
   data() {
     return {
       names: [],
-      loadedEvents: [],
       events: [
         {
           id: 1,
           title: "Goat yoga",
           location: "Meadow of the goats",
-          date: new Date(2021, 10, 4, 3, 12),
+          date: this.getFutureDate(7),
+          time: "",
           numberOfAttendees: 0,
           joinForm: false,
           userNames: [],
@@ -82,7 +82,8 @@ export default {
           id: 2,
           title: "Goat yoga",
           location: "Meadow of the goats",
-          date: new Date(2021, 10, 4, 3, 12),
+          date: this.getFutureDate(3),
+          time: "",
           numberOfAttendees: 0,
           joinForm: false,
           userNames: [],
@@ -92,7 +93,8 @@ export default {
           id: 3,
           title: "Goat yoga",
           location: "Meadow of the goats",
-          date: new Date(2021, 10, 4, 3, 12),
+          date: this.getFutureDate(4),
+          time: "",
           numberOfAttendees: 0,
           joinForm: false,
           userNames: [],
@@ -108,9 +110,10 @@ export default {
 
   methods: {
     init() {
-      this.loadedEvents = JSON.parse(localStorage.getItem("events"));
-      // this.loadedEvents = localStorage.getItem('events')
-      console.log("in loadedEvents " + this.loadedEvents);
+      const events = JSON.parse(localStorage.getItem("events"));
+      if (events !== null) {
+        this.events = events;
+      }
     },
 
     saveUserToStorage() {
@@ -122,7 +125,7 @@ export default {
       userNames.push(userName), userEmails.push(userEmail);
     },
 
-    getEvents() {
+    /*getEvents() {
       if (this.loadedEvents !== null) {
         console.log("getting events from loadedEvents");
         return this.loadedEvents;
@@ -130,6 +133,9 @@ export default {
         console.log("getting events from events");
         return this.events;
       }
+    },*/
+    getFutureDate(days) {
+      return format(add(new Date(), { days }), "dd MMM yyyy");
     },
   },
 };
