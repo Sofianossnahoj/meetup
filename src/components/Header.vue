@@ -3,7 +3,9 @@
     <h1 class="logo">meetup</h1>
     <div class="nav">
       <button @click="toggleHome()" class="home-btn">Home</button>
-      <button @click="toggleComments()" class="comments-btn">My events</button>
+      <button @click="toggleComments()" class="comments-btn">
+        event comments
+      </button>
     </div>
   </header>
 </template>
@@ -40,5 +42,23 @@ header {
 }
 
 .nav {
+  display: flex;
+  width: 70%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.home-btn {
+  width: 40%;
+  border-style: none;
+  font-family: "Raleway", sans-serif;
+  background-color: whitesmoke;
+}
+
+.comments-btn {
+  width: 40%;
+  border-style: none;
+  font-family: "Raleway", sans-serif;
+  background-color: whitesmoke;
 }
 </style>

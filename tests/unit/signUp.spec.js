@@ -4,21 +4,17 @@ import Home from "@/components/Home.vue";
 describe("Home.vue event attendence", () => {
   it("should add attendence to localStorage", async () => {
     let wrapper = shallowMount(Home);
-    const input = wrapper.find("input.inputField");
+    const input = wrapper.find("input.input-field-name");
     await input.setValue("Anna");
 
-    const button = wrapper.find("button.joinBtn");
-    await button.trigger("click");
-
-    expect(input.userName).toMatch("Anna");
+    expect(input.element.value).toBe("Anna");
   });
 
-  //it("should add attendence to localStorage", () => {});
-
-  it("should check that saveUserToEvent runs", () => {
+  it("should check that saveUserToEvent runs", async () => {
     const Method = jest.spyOn(Home.methods, "saveUserToEvent");
-    shallowMount(Home);
-
+    let wrapper = shallowMount(Home);
+    const button = wrapper.find("button.join-btn");
+    await button.trigger("click");
     expect(Method).toBeCalled();
   });
 });
