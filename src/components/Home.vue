@@ -1,7 +1,5 @@
 <template>
   <main>
-    <Header />
-    <Comments />
     <section v-for="(event, title) in events" :key="title" class="eventCard">
       <h4>{{ event.title }}</h4>
       <p>{{ event.date }}</p>
@@ -52,16 +50,11 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
-import Comments from "../components/Comments.vue";
 import { add, format } from "date-fns";
 
 export default {
   name: "Home",
-  components: {
-    Header,
-    Comments,
-  },
+  components: {},
 
   data() {
     return {
@@ -151,7 +144,7 @@ main {
   border-style: solid;
   border-color: #ffff;
   border-width: 3px;
-  border-radius: 4px;
+  border-radius: 2px;
   background-color: whitesmoke;
   width: 90%;
   max-height: 50%;
