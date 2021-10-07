@@ -5,7 +5,6 @@
       <p>date: {{ event.date }}</p>
       <p>time: {{ event.time }}</p>
       <p>location: {{ event.location }}</p>
-      <p>participant: {{ event.numberOfAttendees }}</p>
       <button
         v-show="!event.joinForm"
         @click="event.joinForm = !event.joinForm"
