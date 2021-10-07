@@ -1,21 +1,14 @@
 <template>
   <main>
-    <Header />
-    <h1>hej</h1>
-    <section
-      v-for="(event, title) in loadedEvents"
-      :key="title"
-      class="eventCard"
-    >
+    <section v-for="(event, title) in events" :key="title" class="eventCard">
       <h4>{{ event.title }}</h4>
-      <p>{{ event.date }}</p>
-      <p>{{ event.location }}</p>
-      <div>
-        {{ event.numberOfAttendees }}
-      </div>
+      <p>date: {{ event.date }}</p>
+      <p>time: {{ event.time }}</p>
+      <p>location: {{ event.location }}</p>
+      <p>participant: {{ event.numberOfAttendees }}</p>
       <button
         v-show="!event.joinForm"
-        v-on:click="event.joinForm = !event.joinForm"
+        @click="event.joinForm = !event.joinForm"
         class="btn"
       >
         Join
@@ -25,28 +18,30 @@
         <input
           type="text"
           placeholder="Name"
-          class="inputField"
+          class="input-field-name"
           v-model="event.userName"
         />
         <input
           type="text"
           placeholder="Email"
-          class="inputField"
+          class="input-field"
           v-model="event.userEmail"
         />
         <button
           @click="
             (event.numberOfAttendees = event.numberOfAttendees + 1),
-              saveUserToStorage(),
               saveUserToEvent(
                 event.userName,
                 event.userNames,
                 event.userEmail,
                 event.userEmails,
                 event.numberOfAttendees
-              )
+              ),
+              saveUserToStorage(),
+              (event.userName = ''),
+              (event.userEmail = '')
           "
-          class="joinBtn"
+          class="join-btn"
         >
           Join
         </button>
@@ -56,48 +51,51 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
+import { add, format } from "date-fns";
 
 export default {
   name: "Home",
-  components: {
-    Header,
-  },
+  components: {},
 
   data() {
     return {
       names: [],
-      loadedEvents: [],
       events: [
         {
           id: 1,
           title: "Goat yoga",
           location: "Meadow of the goats",
-          date: new Date(2021, 10, 4, 3, 12),
+          date: this.getFutureDate(7),
+          time: "12:00",
           numberOfAttendees: 0,
           joinForm: false,
           userNames: [],
           userEmails: [],
+          userComments: [],
         },
         {
           id: 2,
-          title: "Goat yoga",
-          location: "Meadow of the goats",
-          date: new Date(2021, 10, 4, 3, 12),
+          title: "Constellation walk",
+          location: "the park",
+          date: this.getFutureDate(3),
+          time: "22:00",
           numberOfAttendees: 0,
           joinForm: false,
           userNames: [],
           userEmails: [],
+          userComments: [],
         },
         {
           id: 3,
-          title: "Goat yoga",
-          location: "Meadow of the goats",
-          date: new Date(2021, 10, 4, 3, 12),
+          title: "Picnic",
+          location: "the other park",
+          date: this.getFutureDate(4),
+          time: "15:00",
           numberOfAttendees: 0,
           joinForm: false,
           userNames: [],
           userEmails: [],
+          userComments: [],
         },
       ],
     };
@@ -109,8 +107,10 @@ export default {
 
   methods: {
     init() {
-      this.loadedEvents = JSON.parse(localStorage.getItem("events"));
-      console.log(this.loadedEvents);
+      const events = JSON.parse(localStorage.getItem("events"));
+      if (events !== null) {
+        this.events = events;
+      }
     },
 
     saveUserToStorage() {
@@ -121,50 +121,12 @@ export default {
     saveUserToEvent(userName, userNames, userEmail, userEmails) {
       userNames.push(userName), userEmails.push(userEmail);
     },
+
+    getFutureDate(days) {
+      return format(add(new Date(), { days }), "dd MMM yyyy");
+    },
   },
 };
 </script>
 
-<style scoped>
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.eventCard {
-  border-style: solid;
-  border-color: #ffff;
-  border-width: 3px;
-  border-radius: 4px;
-  background-color: whitesmoke;
-  width: 90%;
-  max-height: 50%;
-  margin-top: 1.5rem;
-}
-.joinForm {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-}
-.inputField {
-  width: 80%;
-  height: 1.5rem;
-  margin-top: 10px;
-  font-family: "Open Sans", sans-serif;
-  border-width: 1px;
-  border-style: none;
-  align-self: center;
-  font-family: "Raleway", sans-serif;
-}
-.joinBtn {
-  border-style: none;
-  background-color: #f6b092;
-  width: 125px;
-  height: 2rem;
-  border-radius: 12px;
-  margin: 10px;
-  font-family: "Raleway", sans-serif;
-  font-weight: bold;
-  align-self: center;
-}
-</style>
+<style scoped></style>
