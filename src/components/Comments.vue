@@ -1,5 +1,8 @@
 <template>
   <main>
+    <h4 v-if="isEmpty">
+      No comments yet, join a event to comment!
+    </h4>
     <section v-for="(event, title) in events" :key="title" class="comments">
       <div v-if="event.userNames.length !== 0" class="comments-card">
         <h4>{{ event.title }}</h4>
@@ -9,13 +12,7 @@
         <div v-show="event.joinForm" class="comment-form">
           <input
             type="text"
-            placeholder="Name"
-            class="input-field"
-            v-model="event.userComment"
-          />
-          <input
-            type="text"
-            placeholder="write a comment"
+            placeholder="Comment here!"
             class="input-field"
             v-model="event.userComment"
           />
@@ -31,6 +28,7 @@
           </button>
         </div>
         <div class="comments">
+          <h4>previous comments</h4>
           <ul id="userComments">
             <li
               v-for="($value, index) in event.userComments"
@@ -56,6 +54,7 @@ export default {
   data() {
     return {
       names: [],
+      isEmpty: true,
       events: [
         {
           id: 1,
@@ -106,6 +105,7 @@ export default {
       const events = JSON.parse(localStorage.getItem("events"));
       if (events !== null) {
         this.events = events;
+        this.isEmpty = !this.isEmpty;
       }
     },
 
@@ -126,13 +126,14 @@ export default {
 
 <style scoped>
 .comments {
-  width: 90%;
+  width: 400px;
   max-height: 50%;
   margin-top: 1.5rem;
 }
 
 .comments-card {
   border-style: solid;
+  width: 90%;
   border-color: #ffff;
   border-width: 3px;
   border-radius: 2px;
@@ -147,6 +148,7 @@ export default {
 
 .comments-list {
   list-style-type: none;
+  margin-bottom: 1.5rem;
 }
 
 .comment-btn {

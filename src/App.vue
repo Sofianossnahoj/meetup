@@ -64,6 +64,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: center;
 }
 .eventCard {
   border-style: solid;
