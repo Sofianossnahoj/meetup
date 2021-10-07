@@ -5,9 +5,7 @@
         <h4>{{ event.title }}</h4>
         <p>{{ event.date }}</p>
         <p>{{ event.location }}</p>
-        <div>
-          {{ event.numberOfAttendees }}
-        </div>
+        <h4>write a comment</h4>
         <div v-show="event.joinForm" class="comment-form">
           <input
             type="text"
@@ -27,14 +25,18 @@
                 saveToStorage(),
                 (event.userComment = null)
             "
-            class="join-btn"
+            class="comment-btn"
           >
             comment
           </button>
         </div>
         <div class="comments">
           <ul id="userComments">
-            <li v-for="($value, index) in event.userComments" :key="index">
+            <li
+              v-for="($value, index) in event.userComments"
+              :key="index"
+              class="comments-list"
+            >
               {{ $value }}
             </li>
           </ul>
@@ -141,5 +143,21 @@ export default {
   margin-top: 15px;
   display: flex;
   flex-direction: column;
+}
+
+.comments-list {
+  list-style-type: none;
+}
+
+.comment-btn {
+  border-style: none;
+  background-color: #f6b092;
+  width: 125px;
+  height: 2rem;
+  border-radius: 12px;
+  margin: 10px;
+  font-family: "Raleway", sans-serif;
+  font-weight: bold;
+  align-self: center;
 }
 </style>

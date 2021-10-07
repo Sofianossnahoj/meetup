@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <Header v-on:toggleHome="goHome" v-on:toggleComments="goComments" />
-    <Home v-show="isVisible" />
-    <Comments v-show="!isVisible" />
+    <Home v-if="isVisible" />
+    <Comments v-if="!isVisible" />
   </div>
 </template>
 
